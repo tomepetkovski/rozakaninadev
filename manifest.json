@@ -1,0 +1,79 @@
+{
+  "name": "Роза Канина - Природни Лековити",
+  "short_name": "Роза Канина",
+  "description": "Природни лековити производи за вашето здравје. Органски чаеви, тинктури, медови и мешавини од планински билки.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2c7a2e",
+  "theme_color": "#2c7a2e",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "mk",
+  "categories": ["health", "shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "https://alternativna-medicina.com.mk/Sliki/main-img-1.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://alternativna-medicina.com.mk/Sliki/main-img-1.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Продавница",
+      "short_name": "Продавница",
+      "description": "Погледни ги нашите производи",
+      "url": "/#prodavnica",
+      "icons": [
+        {
+          "src": "https://alternativna-medicina.com.mk/Sliki/main-img-1.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Кошничка",
+      "short_name": "Кошничка",
+      "description": "Види ја твојата кошничка",
+      "url": "/#prodavnica",
+      "icons": [
+        {
+          "src": "https://alternativna-medicina.com.mk/Sliki/main-img-1.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Контакт",
+      "short_name": "Контакт",
+      "description": "Контактирајте не",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "https://alternativna-medicina.com.mk/Sliki/main-img-1.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://alternativna-medicina.com.mk/Sliki/main-img-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "https://alternativna-medicina.com.mk/Sliki/main-img-1.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

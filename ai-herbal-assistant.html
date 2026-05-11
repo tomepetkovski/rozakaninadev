@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Билен Асистент - Роза Канина</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c7a2c;
+            --secondary-color: #8b4513;
+            --accent-color: #ff6b6b;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+            --light-bg: #f8f9fa;
+            --dark-text: #2c3e50;
+            --chat-bg: #ffffff;
+            --user-msg-bg: #e3f2fd;
+            --ai-msg-bg: #f1f3f4;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e8 100%);
+            min-height: 100vh;
+            color: var(--dark-text);
+        }
+        
+        .chat-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .chat-main {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .chat-sidebar {
+            flex: 0 0 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            max-height: 600px;
+        }
+        
+        .chat-area {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--chat-bg);
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            background: white;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message.ai {
+            justify-content: flex-start;
+        }
+        
+        .message-bubble {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            word-wrap: break-word;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .message.user .message-bubble {
+            background: var(--user-msg-bg);
+            color: var(--dark-text);
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.ai .message-bubble {
+            background: var(--ai-msg-bg);
+            color: var(--dark-text);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .quick-symptoms {
+            margin-top: 20px;
+        }
+        
+        .symptom-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        
+        .symptom-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .product-recommendation {
+            background: linear-gradient(135deg, #f8f9fa, #e8f5e8);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 15px;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .product-card-mini {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card-mini:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 10px 15px;
+            color: var(--accent-color);
+            font-style: italic;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .back-to-home {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-home:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--info-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header" data-aos="fade-down">
+            <h2 data-translate="ai_assistant_title"><i class="fas fa-leaf me-2"></i>AI Билен Асистент - Роза Канина</h2>
+            <p class="mb-0" data-translate="ai_assistant_subtitle">Добредојдовте! Јас сум вашиот личен билен советник. Кажете ми ги вашите симптоми и ќе ви препорачам најсоодветни производи од нашата асортиман.</p>
+        </div>
+        
+        <div class="chat-main">
+            <div class="chat-sidebar" data-aos="fade-right">
+                <h5 class="mb-3"><i class="fas fa-stethoscope me-2"></i>Чести симптоми</h5>
+                <div class="quick-symptoms">
+                    <button class="symptom-btn" onclick="sendSymptom('Дигестивни проблеми')">
+                        <i class="fas fa-stomach me-2"></i>Дигестивни проблеми
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Стрес и анксиозност')">
+                        <i class="fas fa-brain me-2"></i>Стрес и анксиозност
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Проблеми со спиење')">
+                        <i class="fas fa-utensils me-2"></i>Проблеми со спиење
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Болки во мускулите и зглобовите')">
+                        <i class="fas fa-bone me-2"></i>Болки во мускулите и зглобовите
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Кожни проблеми')">
+                        <i class="fas fa-skin me-2"></i>Кожни проблеми
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Проблеми со срцето')">
+                        <i class="fas fa-heartbeat me-2"></i>Проблеми со срцето
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Отоци и задржување')">
+                        <i class="fas fa-tint me-2"></i>Отоци и задржување
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Слаб имунитет')">
+                        <i class="fas fa-shield-virus me-2"></i>Слаб имунитет
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Инфекции')">
+                        <i class="fas fa-virus me-2"></i>Инфекции
+                    </button>
+                    <button class="symptom-btn" onclick="sendSymptom('Проблеми со дишење')">
+                        <i class="fas fa-lungs me-2"></i>Проблеми со дишење
+                    </button>
+                </div>
+            </div>
+            
+            <div class="chat-area" data-aos="fade-left">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="ai-avatar">AI</div>
+                        <div class="message-bubble">
+                            <strong>Добредојдовте!</strong><br><br>
+                            Јас сум вашиот AI билен асистент. Можам да ви помогнам да изберете најсоодветни производи од Роза Канина врз основа на вашите симптоми и потреби.<br><br>
+                            <em>Кликнете на симптомите од лево или опишете го вашиот проблем во полето за пораки подолу.</em>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <div class="typing-indicator" id="typingIndicator">
+                        <i class="fas fa-robot me-2"></i> AI асистентот пишува...
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="userInput" placeholder="Опишете ги вашите симптоми или прашајте за производ..." onkeypress="handleKeyPress(event)">
+                        <button class="btn btn-primary" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="index.html" class="back-to-home">
+        <i class="fas fa-home me-2"></i>Почетна
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="multilingual-support.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // Product Database with detailed information
+        const productDatabase = {
+            'digestive': {
+                symptoms: ['Дигестивни проблеми', 'Гас, надување, киселини', 'Проблеми со варење', 'Болки во стомак'],
+                products: [
+                    {
+                        name: 'Анасон',
+                        category: 'digestive',
+                        properties: ['помага при дигестија', 'смета надување', 'антиспазмодично'],
+                        price: '120 ден',
+                        usage: '1 супена лажица во 200мл врела вода',
+                        image: 'Sliki/Sliki proizvodi/anason.png'
+                    },
+                    {
+                        name: 'Коприва',
+                        category: 'digestive',
+                        properties: ['богата со витамини', 'минерали', 'крвна чистка'],
+                        price: '150 ден',
+                        usage: '1 супена лажица во 200мл врела вода',
+                        image: 'Sliki/Novi sliki od proizvodi za web/kopriva.png'
+                    },
+                    {
+                        name: 'Хепато-Микс',
+                        category: 'digestive',
+                        properties: ['за црн дроб', 'детоксикација', 'холагогно'],
+                        price: '300 ден',
+                        usage: '1 супена лажица во 600мл врела вода',
+                        image: 'Sliki/Novi sliki od proizvodi za web/hepato-miks.png'
+                    }
+                ]
+            },
+            'stress': {
+                symptoms: ['Стрес', 'Анксиозност', 'Немир', 'Проблеми со спиење', 'Неспокојство'],
+                products: [
+                    {
+                        name: 'Фит-Микс',
+                        category: 'stress',
+                        properties: ['диуретично', 'антиревматично', 'хемостатично'],
+                        price: '320 ден',
+                        usage: '3 супени лажици со 1.5л вода',
+                        image: 'Sliki/Novi sliki od proizvodi za web/fit-miks.png'
+                    },
+                    {
+                        name: 'Жалфија',
+                        category: 'stress',
+                        properties: ['антисептичко', 'стомахично', 'смирување'],
+                        price: '150 ден',
+                        usage: '1 супена лажица во 200мл врела вода',
+                        image: 'Sliki/Sliki proizvodi/zhalfija.png'
+                    },
+                    {
+                        name: 'Нане',
+                        category: 'stress',
+                        properties: ['освежување', 'релаксација', 'антиспазмодично'],
+                        price: '180 ден',
+                        usage: '1 супена лажица во 200мл врела вода',
+                        image: 'Sliki/Sliki proizvodi/nane.png'
+                    }
+                ]
+            },
+            'pain': {
+                symptoms: ['Болки во мускулите', 'Зглобови', 'Ревматизам', 'Мигрена', 'Нервни болки'],
+                products: [
+                    {
+                        name: 'Урино-Микс',
+                        category: 'pain',
+                        properties: ['диуретично', 'антиревматично', 'против воспаленија'],
+                        price: '300 ден',
+                        usage: '3 супени лажици со 1.5л вода',
+                        image: 'Sliki/Novi sliki od proizvodi za web/urino-miks.png'
+                    },
+                    {
+                        name: 'Врбовка',
+                        category: 'pain',
+                        properties: ['смирување', 'релаксација', 'против болки'],
+                        price: '160 ден',
+                        usage: '1 супена лажица во 200мл врела вода',
+                        image: 'Sliki/Sliki proizvodi/vrbovka.png'
+                    }
+                ]
+            },
+            'skin': {
+                symptoms: ['Кожни проблеми', 'Егземи', 'Псоријаза', 'Акни', 'Алергии'],
+                products: [
+                    {
+                        name: 'Кантарионова Масло',
+                        category: 'skin',
+                        properties: ['за рани', 'антисептичко', 'регенеративно'],
+                        price: '450 ден',
+                        usage: 'нанесување на тенки слоеви',
+                        image: 'Sliki/Novi sliki od proizvodi za web/kantarionovo-maslo.png'
+                    },
+                    {
+                        name: 'Медовина',
+                        category: 'skin',
+                        properties: ['засладувачки', 'регенеративно', 'против воспаленија'],
+                        price: '280 ден',
+                        usage: '3 пати на ден по 1 кафена лажиче',
+                        image: 'Sliki/Sliki proizvodi/medovina.png'
+                    }
+                ]
+            },
+            'immune': {
+                symptoms: ['Слаб имунитет', 'Чести заболувања', 'Опоравеност', 'Сезонски алергии'],
+                products: [
+                    {
+                        name: 'Медовина',
+                        category: 'immune',
+                        properties: ['зајакнување имунитет', 'витамини', 'антиоксиданси'],
+                        price: '300 ден',
+                        usage: '3 пати на ден по 1 кафена лажиче',
+                        image: 'Sliki/Sliki proizvodi/medovina.png'
+                    },
+                    {
+                        name: 'Феми-Микс',
+                        category: 'immune',
+                        properties: ['за женско здравје', 'хормонска рамнотежа', 'витамини'],
+                        price: '350 ден',
+                        usage: '1 супена лажица во 600мл врела вода',
+                        image: 'Sliki/Novi sliki od proizvodi za web/femi-miks.png'
+                    }
+                ]
+            },
+            'respiratory': {
+                symptoms: ['Проблеми со дишење', 'Кашла', 'Грип', 'Настинка', 'Синузит'],
+                products: [
+                    {
+                        name: 'Жалфија',
+                        category: 'respiratory',
+                        properties: ['против воспаленија', 'ексторантно', 'антисептичко'],
+                        price: '150 ден',
+                        usage: '1 супена лажица во 200мл врела вода',
+                        image: 'Sliki/Sliki proizvodi/zhalfija.png'
+                    },
+                    {
+                        name: 'Преспанска Горчица',
+                        category: 'respiratory',
+                        properties: ['антибактериски', 'антифунгални', 'против кашла'],
+                        price: '300 ден',
+                        usage: '3-4 пати на ден по 10-15мл',
+                        image: 'Sliki/Novi sliki od proizvodi za web/gorcica.png'
+                    }
+                ]
+            },
+            'heart': {
+                symptoms: ['Проблеми со срцето', 'Висок крвен притисок', 'Пореметување на срцето'],
+                products: [
+                    {
+                        name: 'Комплет производи за крвни садови',
+                        category: 'heart',
+                        properties: ['за крвни садови', 'чистење на крвта', 'силимарин'],
+                        price: '1250 ден',
+                        usage: 'Комплекс третман 6 недели',
+                        image: 'Sliki/Novi sliki od proizvodi za web/silimarin.png'
+                    }
+                ]
+            }
+        };
+        
+        let conversationHistory = [];
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function sendSymptom(symptom) {
+            document.getElementById('userInput').value = symptom;
+            sendMessage();
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            addUserMessage(message);
+            input.value = '';
+            
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addAIMessage(response);
+                hideTypingIndicator();
+            }, 1500);
+        }
+        
+        function addUserMessage(message) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user';
+            messageDiv.innerHTML = `
+                <div class="user-avatar">👤</div>
+                <div class="message-bubble">${escapeHtml(message)}</div>
+            `;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        function addAIMessage(message) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai';
+            messageDiv.innerHTML = `
+                <div class="ai-avatar">AI</div>
+                <div class="message-bubble">${message}</div>
+            `;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            conversationHistory.push({user: getLastUserMessage(), ai: message});
+        }
+        
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'block';
+        }
+        
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+        
+        function getLastUserMessage() {
+            const messages = document.querySelectorAll('.message.user .message-bubble');
+            return messages.length > 0 ? messages[messages.length - 1].textContent : '';
+        }
+        
+        function generateAIResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Check for specific symptoms and provide targeted recommendations
+            for (const [category, data] of Object.entries(productDatabase)) {
+                for (const symptom of data.symptoms) {
+                    if (lowerMessage.includes(symptom.toLowerCase()) || 
+                        lowerMessage.includes(category.toLowerCase())) {
+                        return generateProductRecommendation(category, data, userMessage);
+                    }
+                }
+            }
+            
+            // General responses for unmatched symptoms
+            const generalResponses = [
+                "Врз основа на вашите симптоми, препорачувам консултација со нашиот билкар. За конкретни препораки, ве молам да контактирате со нашиот здравствен персонал.",
+                "Разбирам дека имате специфични потреби. Препорачувам да се консултирате со лекар пред употреба на билни производи, особено ако имате хронични состојби.",
+                "На основа на описаните симптоми, препорачувам да започнете со благи детоксикациски чаеви и да се консултирате со нашиот стручен тим за персонализирани препораки.",
+                "За најдобри резултати, препорачувам комбинација на нашиите производи за детоксикација и зајакнување на имунитетот."
+            ];
+            
+            return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+        }
+        
+        function generateProductRecommendation(category, data, userMessage) {
+            const products = data.products;
+            let recommendations = '';
+            
+            recommendations += `<div class="product-recommendation">`;
+            recommendations += `<h5><i class="fas fa-prescription me-2"></i>Препорачани производи за ${getCategoryName(category)}:</h5>`;
+            
+            products.slice(0, 3).forEach((product, index) => {
+                recommendations += `
+                    <div class="product-card-mini" data-aos="fade-up" data-aos-delay="${index * 100}">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="${product.image}" alt="${product.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px;">
+                            <div>
+                                <strong>${product.name}</strong><br>
+                                <small class="text-muted">${product.properties.join(', ')}</small><br>
+                                <span class="badge bg-success text-white">${product.price}</span>
+                            </div>
+                        </div>
+                        <div><small><i class="fas fa-info-circle me-1"></i><strong>Начин на употреба:</strong> ${product.usage}</small></div>
+                    </div>
+                `;
+            });
+            
+            recommendations += `</div>`;
+            recommendations += `<p class="mt-3"><em><i class="fas fa-lightbulb me-2"></i>Зошто овие производи? ${getReasoning(category, userMessage)}</em></p>`;
+            recommendations += `<p class="mt-2"><small><i class="fas fa-exclamation-triangle me-2"></i><strong>Важно:</strong> Секогаш консултирајте со лекар пред употреба, особено ако имате хронични состојби или земате други лекови.</small></p>`;
+            
+            return recommendations;
+        }
+        
+        function getCategoryName(category) {
+            const names = {
+                'digestive': 'дигестивни проблеми',
+                'stress': 'стрес и анксиозност',
+                'pain': 'болки и воспаленија',
+                'skin': 'кожни проблеми',
+                'immune': 'зголемување на имунитет',
+                'respiratory': 'респираторни проблеми',
+                'heart': 'кардиоваскуларно здравје'
+            };
+            return names[category] || category;
+        }
+        
+        function getReasoning(category, userMessage) {
+            const reasoning = {
+                'digestive': 'овие производи содржат билки кои традиционално се користат за подобрување на дигестијата, сметање и функцијата на дигестивниот систем',
+                'stress': 'овие производи помагаат за релаксација на нервниот систем, подобрување на спиењето и намалување на стресот',
+                'pain': 'овие производи имаат антиинфламаторни и аналгетски својства кои помагаат кај ублажување на болка и воспаленија',
+                'skin': 'овие производи се користат за регенерација на кожата, лекување на кожни воспаленија и подобрување на општата состојба на кожата',
+                'immune': 'овие производи се богати со витамини и антиоксиданси кои помагаат за зајакнување на природниот имунитет',
+                'respiratory': 'овие производи се користат за лекување на респираторни проблеми, кашла и за чистење на дишните патишта',
+                'heart': 'овие производи се специјално формулирани за поддршка на кардиоваскуларното здравје и чистење на крвните садови'
+            };
+            return reasoning[category] || 'овие производи се избрани врз основа на нивните доказани корисни својства за вашата состојба';
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Reinitialize AOS after dynamic content
+        setTimeout(() => {
+            AOS.refresh();
+        }, 100);
+    </script>
+</body>
+</html>

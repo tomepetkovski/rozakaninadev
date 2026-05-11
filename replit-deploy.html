@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replit Деплојмент - Роза Канина</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c7a2c 0%, #8b4513 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .deploy-container {
+            background: rgba(255, 255, 255, 0.95);
+            color: #2c3e50;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            max-width: 600px;
+            text-align: center;
+        }
+        .deploy-title {
+            color: #2c7a2c;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            border-left: 4px solid #2c7a2c;
+        }
+        .step h3 {
+            color: #2c7a2c;
+            margin-top: 0;
+        }
+        .btn-replit {
+            background: #2c7a2c;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-replit:hover {
+            background: #8b4513;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .file-list {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .file-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .qr-code img {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="deploy-container">
+        <h1 class="deploy-title">🚀 Деплојмент на Replit</h1>
+        
+        <div class="step">
+            <h3>Чекор 1: Отворете Replit</h3>
+            <p>Кликнете на копчето подолу за да отворете Replit:</p>
+            <a href="https://replit.com" target="_blank" class="btn-replit">
+                🌐 Отвори Replit
+            </a>
+        </div>
+        
+        <div class="step">
+            <h3>Чекор 2: Креирајте Нов Проект</h3>
+            <p>1. Кликнете на "Create Repl"</p>
+            <p>2. Изберете "HTML, CSS, JS" шаблон</p>
+            <p>3. Именувајте го проектот: "roza-kanina"</p>
+        </div>
+        
+        <div class="step">
+            <h3>Чекор 3: Копирајте ги Фајловите</h3>
+            <p>Копирајте ги следните фајлови од вашиот локален фолдер:</p>
+            <div class="file-list">
+                <div class="file-item">📄 index.html (главен фајл)</div>
+                <div class="file-item">📄 manifest.json (PWA менифест)</div>
+                <div class="file-item">📄 sw.js (Service Worker)</div>
+                <div class="file-item">📁 Sliki/ (сите слики)</div>
+                <div class="file-item">📁 ai-herbal-assistant.html (AI асистент)</div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>Чекор 4: Пуштете го Сајтот</h3>
+            <p>1. Кликнете на "Run" копчето</p>
+            <p>2. Вашиот сајт ќе биде достапен на URL</p>
+            <p>3. Тестерирајте ги сите функции</p>
+        </div>
+        
+        <div class="step">
+            <h3>Чекор 5: Мобилно Тестирање</h3>
+            <p>1. Скенирајте QR code со мобилен уред</p>
+            <p>2. Тестирајте ги мобилните функции</p>
+            <p>3. Проверете PWA инсталација</p>
+            <div class="qr-code">
+                <p>QR код ќе се појави тука кога ќе го деплојате</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>📱 Тестинг Чеклист</h3>
+            <div style="text-align: left;">
+                <p>✅ Responsive дизајн</p>
+                <p>✅ Touch интеракции</p>
+                <p>✅ Language switcher</p>
+                <p>✅ PWA функционалности</p>
+                <p>✅ E-commerce функции</p>
+                <p>✅ Admin панел</p>
+            </div>
+        </div>
+        
+        <a href="https://replit.com" target="_blank" class="btn-replit">
+            🚀 Започни Деплојмент
+        </a>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 10px;">
+            <h4>💡 Совети:</h4>
+            <p>• Replit е бесплатен и не бара инсталација</p>
+            <p>• Сајтот ќе биде веднаш достапен</p>
+            <p>• Можете да го делите URL со други</p>
+            <p>• Поддржува HTTPS за PWA</p>
+        </div>
+    </div>
+</body>
+</html>

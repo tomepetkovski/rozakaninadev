@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Preview - Роза Канина</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .preview-header {
+            background: #064696;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .preview-iframe {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            background: white;
+        }
+        .file-selector {
+            padding: 10px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .file-btn {
+            margin: 5px;
+            padding: 8px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .file-btn:hover {
+            background: #0056b3;
+        }
+        .file-btn.active {
+            background: #28a745;
+        }
+        .reload-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .reload-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h1>🌿 Роза Канина - Live Preview</h1>
+            <button class="reload-btn" onclick="reloadPreview()">🔄 Reload</button>
+        </div>
+        
+        <div class="file-selector">
+            <strong>Изберете датотека за преглед:</strong><br>
+            <button class="file-btn active" onclick="loadFile('Dokumentacija za cpay/cPay/cpay-mk/index.html')">Payment Page</button>
+            <button class="file-btn" onclick="loadFile('Arhiva na naracki WEB 2022-2026/email template.html')">Email Template</button>
+            <button class="file-btn" onclick="loadFile('Dokumentacija za cpay/cPay/template/1.form.html')">Payment Form</button>
+            <button class="file-btn" onclick="loadFile('Dokumentacija za cpay/cPay/template/2.preview.html')">Payment Preview</button>
+        </div>
+        
+        <iframe id="preview-frame" class="preview-iframe" src="Dokumentacija za cpay/cPay/cpay-mk/index.html"></iframe>
+    </div>
+
+    <script>
+        let currentFile = 'Dokumentacija za cpay/cPay/cpay-mk/index.html';
+        
+        function loadFile(filename) {
+            currentFile = filename;
+            document.getElementById('preview-frame').src = filename;
+            
+            // Update active button
+            document.querySelectorAll('.file-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        function reloadPreview() {
+            const iframe = document.getElementById('preview-frame');
+            iframe.src = iframe.src;
+        }
+        
+        // Auto-reload every 30 seconds
+        setInterval(reloadPreview, 30000);
+        
+        // Handle file changes (you can modify this to work with your editor)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                reloadPreview();
+            }
+        });
+    </script>
+</body>
+</html>
