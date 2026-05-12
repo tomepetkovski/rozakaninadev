@@ -2300,6 +2300,143 @@
             perspective: 1000px;
         }
         
+        /* Blog Section Styles */
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .blog-card:hover .blog-image img {
+            transform: scale(1.05);
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-content h5 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .blog-content p {
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* Shop Info Card Styles */
+        .shop-info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .shop-info-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .shop-features {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            min-width: 100px;
+        }
+        
+        .feature-item i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-item span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        /* Order Info Card Styles */
+        .order-info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+        
+        .order-info-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .order-info-card ol,
+        .order-info-card ul {
+            padding-left: 20px;
+        }
+        
+        .order-info-card li {
+            margin-bottom: 10px;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        /* Mobile Responsive for New Sections */
+        @media (max-width: 768px) {
+            .blog-card {
+                margin-bottom: 20px;
+            }
+            
+            .shop-features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .feature-item {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .order-info-card {
+                margin-bottom: 20px;
+            }
+        }
+
         /* Accessibility for Mobile */
         @media (max-width: 768px) {
             .sr-only {
@@ -3099,6 +3236,130 @@
             <div class="decoration leaf-3"></div>
             <div class="decoration flower-1"></div>
             <div class="decoration flower-2"></div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="category-title text-center mb-5" data-aos="fade-up" data-translate="blog">Блог и Новости</h2>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="Sliki/Novi sliki od proizvodi za web/femi-miks.png" alt="Блог пост 1" class="img-fluid">
+                        </div>
+                        <div class="blog-content">
+                            <h5>Предности на Билните Производи</h5>
+                            <p>Откријте ги многубројните предности на користење природни билни производи за вашето здравје...</p>
+                            <a href="#" class="btn btn-outline-primary">Прочитај повеќе</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="Sliki/Novi sliki od proizvodi za web/hepato-miks.png" alt="Блог пост 2" class="img-fluid">
+                        </div>
+                        <div class="blog-content">
+                            <h5>Како да Грижите за Црн Дроб</h5>
+                            <p>Совети и препораки за одржување здрав црн дроб со природни производи...</p>
+                            <a href="#" class="btn btn-outline-primary">Прочитај повеќе</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="Sliki/Novi sliki od proизvоди za web/fit-miks.png" alt="Блог пост 3" class="img-fluid">
+                        </div>
+                        <div class="blog-content">
+                            <h5>Енергија и Виталност</h5>
+                            <p>Природни начини да го зголемите вашето енергетско ниво и подобрете виталност...</p>
+                            <a href="#" class="btn btn-outline-primary">Прочитај повеќе</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prodavnica Section -->
+    <section id="prodavnica" class="py-5">
+        <div class="container">
+            <h2 class="category-title text-center mb-5" data-aos="fade-up">Онлајн Продавница</h2>
+            
+            <div class="row">
+                <div class="col-md-8 mx-auto" data-aos="fade-up">
+                    <div class="shop-info-card">
+                        <h3>Добредојдовте во нашата онлајн продавница!</h3>
+                        <p>Кај нас ќе најдете квалитетни природни производи за вашето здравје и благосостојба.</p>
+                        
+                        <div class="shop-features">
+                            <div class="feature-item">
+                                <i class="fas fa-truck"></i>
+                                <span>Брза Доставка</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Безбедна Плаќања</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-leaf"></i>
+                                <span>100% Природни</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <a href="#shop" class="btn btn-primary btn-lg">Погледни Производи</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Section -->
+    <section id="shop" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="category-title text-center mb-5" data-aos="fade-up">Онлајн Нарачка</h2>
+            
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="order-info-card">
+                        <h3>Како да Нарачате?</h3>
+                        <ol>
+                            <li>Изберете ги саканите производи</li>
+                            <li>Додадете ги во кошничка</li>
+                            <li>Пополнете ја нарачката</li>
+                            <li>Платете онлајн или при достава</li>
+                            <li>Добијте доставка на врата</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="order-info-card">
+                        <h3>Информации за Доставка</h3>
+                        <ul>
+                            <li>Доставка низ цела Македонија</li>
+                            <li>Доставка 1-3 работни дена</li>
+                            <li>Трошоци за доставка: 150 ден</li>
+                            <li>Бесплатна доставка за нарачки над 2000 ден</li>
+                            <li>Плаќање при достава или онлајн</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <button class="btn btn-primary btn-lg" onclick="scrollToSection('products')">
+                    <i class="fas fa-shopping-cart me-2"></i>Почнете со Нарачка
+                </button>
+            </div>
         </div>
     </section>
 
